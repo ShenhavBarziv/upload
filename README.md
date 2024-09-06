@@ -1,6 +1,6 @@
 # Easy File Upload Application
 
-This Node.js application provides a user-friendly way to upload files from your phone or any other device to your PC.
+This Node.js application provides a user-friendly way to upload files from your phone or any other device to your PC. It allows you to quickly transfer files over a local network using a simple web interface.
 
 ## Getting Started
 
@@ -14,15 +14,22 @@ This Node.js application provides a user-friendly way to upload files from your 
 2. Open a terminal in the project directory.
 3. Run `npm install` (or `yarn install`) to install the required dependencies.
 
-## Usage:
+## Usage
 
 1. Run the application using `npm start` (or `yarn start`).
 2. Once started, the application will provide a local address in the terminal.
-3. Open a web browser on your device (phone, tablet, or computer).
-4. Enter the provided address manually in the browser's address bar or scan the displayed QR code using your device's camera app.
-5. You will be directed to the application interface where you can upload files.
-6. Choose the file you want to upload from your device.
-7. The file will be transferred to your PC.
+3. The terminal will also display a QR code. You can scan this QR code using your device's camera app to directly access the application interface without having to manually type the address.
+4. Open a web browser on your device (phone, tablet, or computer).
+5. Enter the provided address manually in the browser's address bar or use the QR code to navigate to the application.
+6. You will be directed to the application interface where you can choose to upload files.
+7. Select the file you want to upload from your device.
+8. The file will be transferred to your PC and saved in the specified directory.
+
+## Features
+
+- **Easy File Upload**: Upload files from any device connected to the same network.
+- **QR Code Access**: Scan the QR code displayed in the terminal to quickly access the web interface from your device.
+- **File Management**: View and download uploaded files through the application’s interface.
 
 ## Dependencies
 
@@ -34,6 +41,10 @@ This Node.js application provides a user-friendly way to upload files from your 
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Contact
+## Contributing
 
-For questions or feedback, please feel free to open an issue on the project repository.
+We welcome contributions to the Easy File Upload Application! To get started, please refer to our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
+
+## Feedback
+
+If you have feedback or suggestions, please [open an issue](https://github.com/ShenhavBarziv/upload/issues) on GitHub or contact us directly.
