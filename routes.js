@@ -8,8 +8,17 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+// Ensure required directories exist
+const uploadDir = path.join(__dirname, "uploads");
+const dataDir = path.join(__dirname, "data");
+[uploadDir, dataDir].forEach((dir) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
+
 const storage = multer.diskStorage({
-  destination: "./uploads",
+  destination: uploadDir,
   filename(req, file, cb) {
     cb(
       null,
@@ -25,8 +34,7 @@ function setupRoutes() {
   });
 
   app.get("/uploads", (req, res) => {
-    const directoryPath = path.join(__dirname, "uploads");
-    fs.readdir(directoryPath, (err, files) => {
+    fs.readdir(uploadDir, (err, files) => {
       if (err) {
         return res.status(500).send("Unable to scan directory: " + err);
       }
@@ -36,8 +44,7 @@ function setupRoutes() {
   });
 
   app.get("/downloads", (req, res) => {
-    const directoryPath = path.join(__dirname, "data");
-    fs.readdir(directoryPath, (err, files) => {
+    fs.readdir(dataDir, (err, files) => {
       if (err) {
         return res.status(500).send("Unable to scan directory: " + err);
       }
@@ -47,7 +54,7 @@ function setupRoutes() {
   });
 
   app.get("/files/:filename", (req, res) => {
-    const filePath = path.join(__dirname, "data", req.params.filename);
+    const filePath = path.join(dataDir, req.params.filename);
     res.sendFile(filePath);
   });
 
@@ -55,7 +62,7 @@ function setupRoutes() {
     res.redirect("/");
   });
 
-  app.use("/uploads", express.static("uploads"));
+  app.use("/uploads", express.static(uploadDir));
 }
 
 module.exports = {
