@@ -4,9 +4,9 @@ const path = require("path");
 const fs = require("fs");
 
 const app = express();
-app.use(express.static("public"));
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.use(express.json());
+const clientDistPath = path.join(__dirname, "client", "dist");
+app.use(express.static(clientDistPath));
 
 // Ensure required directories exist
 const uploadDir = path.join(__dirname, "uploads");
@@ -29,40 +29,38 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 function setupRoutes() {
-  app.get("/", (req, res) => {
-    res.render("index");
-  });
-
-  app.get("/uploads", (req, res) => {
+  app.get("/api/uploads", (req, res) => {
     fs.readdir(uploadDir, (err, files) => {
       if (err) {
-        return res.status(500).send("Unable to scan directory: " + err);
+        return res.status(500).json({ error: err.message });
       }
-
-      res.render("uploads", { files });
+      res.json(files);
     });
   });
 
-  app.get("/downloads", (req, res) => {
+  app.get("/api/downloads", (req, res) => {
     fs.readdir(dataDir, (err, files) => {
       if (err) {
-        return res.status(500).send("Unable to scan directory: " + err);
+        return res.status(500).json({ error: err.message });
       }
-
-      res.render("downloads", { files });
+      res.json(files);
     });
   });
 
-  app.get("/files/:filename", (req, res) => {
+  app.get("/api/files/:filename", (req, res) => {
     const filePath = path.join(dataDir, req.params.filename);
     res.sendFile(filePath);
   });
 
-  app.post("/upload", upload.array("files"), (req, res) => {
-    res.redirect("/");
+  app.post("/api/upload", upload.array("files"), (req, res) => {
+    res.status(200).json({ message: "Uploaded" });
   });
 
   app.use("/uploads", express.static(uploadDir));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(clientDistPath, "index.html"));
+  });
 }
 
 module.exports = {
