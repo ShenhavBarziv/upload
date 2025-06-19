@@ -1,6 +1,7 @@
 # Easy File Upload Application
 
 This repository now contains a Node.js backend and a React (TypeScript) frontend built with Material UI. It provides a user-friendly way to upload files from any device over your local network.
+
 ## Getting Started
 
 ### Prerequisites
@@ -16,12 +17,16 @@ This repository now contains a Node.js backend and a React (TypeScript) frontend
 
 ## Usage
 
-1. Build the frontend using `npm run client:build`. During development you can run `npm run client` to start the React dev server.
-2. Run the backend using `npm start`.
-3. Once started, the terminal will display the server address and a QR code for quick access.
-4. Open the address in a browser (or scan the QR code) to use the web interface.
+1. Build the TypeScript server with `npm run build`.
+2. Build the frontend using `npm run client:build`. During development you can run `npm run client` to start the React dev server.
+3. Start the backend with `npm start`.
+4. Once started, the terminal will display the server address and a QR code for quick access.
+5. Open the address in a browser (or scan the QR code) to use the web interface.
+
+Run `npm test` to execute the automated tests.
 
 ## Features
+
 - **Easy File Upload**: Upload files from any device connected to the same network.
 - **QR Code Access**: Scan the QR code displayed in the terminal to quickly access the web interface from your device.
 - **File Management**: View and download uploaded files through the application’s interface.
