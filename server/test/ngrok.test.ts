@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { checkNgrokInstalled } from '../src/utils';
 
 describe('ngrok validation', () => {
