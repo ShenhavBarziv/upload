@@ -48,7 +48,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" color="primary">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             File Server
@@ -58,21 +58,21 @@ const App: React.FC = () => {
       <Container sx={{ mt: 4 }}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 2, bgcolor: 'background.paper' }}>
               <Typography variant="h6" gutterBottom>
                 Upload Files
               </Typography>
               <label htmlFor="upload-input">
                 <Input id="upload-input" type="file" multiple onChange={handleFileChange} />
-                <Button variant="contained" component="span">
+                <Button variant="contained" component="span" color="secondary">
                   Choose Files
                 </Button>
               </label>
-              <Button sx={{ ml: 2 }} variant="contained" onClick={handleUpload} disabled={!selectedFiles}>
+              <Button sx={{ ml: 2 }} variant="contained" color="primary" onClick={handleUpload} disabled={!selectedFiles}>
                 Upload
               </Button>
             </Paper>
-            <Paper sx={{ p: 2, mt: 2 }}>
+            <Paper sx={{ p: 2, mt: 2, bgcolor: 'background.paper' }}>
               <Typography variant="h6">Uploaded Files</Typography>
               <List>
                 {uploadedFiles.map((file) => (
@@ -88,7 +88,7 @@ const App: React.FC = () => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={6}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 2, bgcolor: 'background.paper' }}>
               <Typography variant="h6">Download Files</Typography>
               <List>
                 {downloadFiles.map((file) => (
