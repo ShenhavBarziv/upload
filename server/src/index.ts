@@ -2,16 +2,34 @@ import { app, setupRoutes } from './routes';
 import { generateQRCode, findLocalIpAddress } from './utils';
 import { PORT } from './constants';
 
+// Optionally expose the server via ngrok when USE_NGROK=true
+
 async function startServer(): Promise<void> {
   try {
     setupRoutes();
     const localIpAddress = findLocalIpAddress();
     const serverUrl = `http://${localIpAddress}:${PORT}`;
-    const qrCode = await generateQRCode(serverUrl);
+
+    const useNgrok = process.env.USE_NGROK === 'true';
+    let publicUrl = serverUrl;
+
+    if (useNgrok) {
+      try {
+        const ngrok = await import('ngrok');
+        publicUrl = await ngrok.connect({ addr: PORT });
+      } catch (err) {
+        console.error('Failed to start ngrok. Is it installed?', err);
+      }
+    }
+
+    const qrCode = await generateQRCode(publicUrl);
     console.log('QR code:');
     console.log(qrCode);
     app.listen(PORT, () => {
       console.log(`Server is running at ${serverUrl}`);
+      if (useNgrok) {
+        console.log(`Public URL: ${publicUrl}`);
+      }
     });
   } catch (error) {
     console.error('Error starting the server:', error);

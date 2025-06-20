@@ -19,8 +19,8 @@ This repository now contains a Node.js backend and a React (TypeScript) frontend
 
 1. Build the TypeScript server with `npm run build`.
 2. Build the frontend using `npm run client:build`. During development you can run `npm run client` to start the React dev server.
-3. Start the backend with `npm start`.
-4. Once started, the terminal will display the server address and a QR code for quick access.
+3. Start the backend with `npm start`. Set the environment variable `USE_NGROK=true` before starting if you want to expose the server publicly.
+4. Once started, the terminal will display the server address and a QR code for quick access. If ngrok is enabled, a public URL will also be shown.
 5. Open the address in a browser (or scan the QR code) to use the web interface.
 
 Run `npm test` to execute the automated tests.
@@ -30,6 +30,7 @@ Run `npm test` to execute the automated tests.
 - **Easy File Upload**: Upload files from any device connected to the same network.
 - **QR Code Access**: Scan the QR code displayed in the terminal to quickly access the web interface from your device.
 - **File Management**: View and download uploaded files through the application’s interface.
+- **Public Sharing**: Set `USE_NGROK=true` to get a temporary public URL via ngrok so others can access your server.
 
 ## Dependencies
 
@@ -37,6 +38,7 @@ Run `npm test` to execute the automated tests.
 - [Multer](https://www.npmjs.com/package/multer): Middleware for handling multipart/form-data, primarily used for file uploads.
 - [QRCode](https://www.npmjs.com/package/qrcode): Library for generating QR codes.
 - [React](https://reactjs.org/) and [Material UI](https://mui.com/) for the frontend interface.
+- [ngrok](https://ngrok.com/): Optional tunneling service to share your server outside the local network.
 
 ## License
 
