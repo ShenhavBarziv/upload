@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest", "node"],
     "target": "es2019",
     "module": "commonjs",
     "outDir": "./dist",
@@ -9,5 +10,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src", "tests", "**/*.test.ts"]
 }
