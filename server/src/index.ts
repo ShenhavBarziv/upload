@@ -1,7 +1,8 @@
 import { app, setupRoutes } from './routes';
 import { generateQRCode, findLocalIpAddress } from './utils';
 import { PORT } from './constants';
-
+import dotenv from "dotenv";
+dotenv.config();
 // Optionally expose the server via ngrok when USE_NGROK=true
 
 async function startServer(): Promise<void> {
@@ -9,7 +10,7 @@ async function startServer(): Promise<void> {
     setupRoutes();
     const localIpAddress = findLocalIpAddress();
     const serverUrl = `http://${localIpAddress}:${PORT}`;
-
+    console.log("env: ", process.env.USE_NGROK)
     const useNgrok = process.env.USE_NGROK === 'true';
     let publicUrl = serverUrl;
 
