@@ -1,5 +1,5 @@
 import { app, setupRoutes } from './routes';
-import { generateQRCode, findLocalIpAddress } from './utils';
+import { generateQRCode, findLocalIpAddress, openQRCodeInWindow } from './utils';
 import { PORT } from './constants';
 import dotenv from "dotenv";
 dotenv.config();
@@ -26,6 +26,12 @@ async function startServer(): Promise<void> {
     const qrCode = await generateQRCode(publicUrl);
     console.log('QR code:');
     console.log(qrCode);
+    try {
+      await openQRCodeInWindow(publicUrl);
+      console.log('Opened QR code in a browser window.');
+    } catch (err) {
+      console.warn('Unable to open a QR code window automatically.', err);
+    }
     app.listen(PORT, () => {
       console.log(`Server is running at ${serverUrl}`);
       if (useNgrok) {
