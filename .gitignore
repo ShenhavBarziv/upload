@@ -1,5 +1,7 @@
 node_modules
 uploads
 data
+uploads.old
+data.old
 dist
 .env

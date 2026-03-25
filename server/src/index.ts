@@ -1,5 +1,5 @@
 import { app, setupRoutes } from './routes';
-import { generateQRCode, findLocalIpAddress } from './utils';
+import { generateQRCode, findLocalIpAddress, openFile } from './utils';
 import { PORT } from './constants';
 import dotenv from "dotenv";
 dotenv.config();
@@ -23,14 +23,17 @@ async function startServer(): Promise<void> {
       }
     }
 
-    const qrCode = await generateQRCode(publicUrl);
+    const { ascii, imagePath } = await generateQRCode(publicUrl);
     console.log('QR code:');
-    console.log(qrCode);
+    console.log(ascii);
     app.listen(PORT, () => {
       console.log(`Server is running at ${serverUrl}`);
       if (useNgrok) {
         console.log(`Public URL: ${publicUrl}`);
       }
+      openFile(imagePath).catch((err) => {
+        console.error('Failed to open the QR code image automatically:', err);
+      });
     });
   } catch (error) {
     console.error('Error starting the server:', error);

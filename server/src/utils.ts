@@ -1,6 +1,7 @@
 import os from 'os';
+import path from 'path';
 import qr from 'qrcode';
-import { execSync } from 'child_process';
+import { execSync, exec } from 'child_process';
 
 export function findLocalIpAddress(): string {
   let ip = '0.0.0.0';
@@ -14,13 +15,58 @@ export function findLocalIpAddress(): string {
   return ip;
 }
 
-export async function generateQRCode(url: string): Promise<string> {
-  return new Promise((resolve, reject) => {
+export interface QRCodeResult {
+  ascii: string;
+  imagePath: string;
+}
+
+export async function generateQRCode(url: string): Promise<QRCodeResult> {
+  const ascii = await new Promise<string>((resolve, reject) => {
     qr.toString(url, { type: 'terminal', width: 10 }, (err, qrCode) => {
       if (err) {
         reject(err);
       } else {
         resolve(qrCode);
+      }
+    });
+  });
+
+  const imagePath = await createTempQrImage(url);
+  return { ascii, imagePath };
+}
+
+async function createTempQrImage(url: string): Promise<string> {
+  const filePath = path.join(os.tmpdir(), `easy-upload-qr-${Date.now()}.png`);
+  await new Promise<void>((resolve, reject) => {
+    qr.toFile(filePath, url, { type: 'png', width: 256 }, (err?: Error | null) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+  return filePath;
+}
+
+export async function openFile(filePath: string): Promise<void> {
+  const platform = process.platform;
+  let command: string;
+
+  if (platform === 'darwin') {
+    command = `open "${filePath}"`;
+  } else if (platform === 'win32') {
+    command = `start "" "${filePath}"`;
+  } else {
+    command = `xdg-open "${filePath}"`;
+  }
+
+  await new Promise<void>((resolve, reject) => {
+    exec(command, (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
       }
     });
   });
