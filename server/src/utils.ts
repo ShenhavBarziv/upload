@@ -1,7 +1,7 @@
 import os from 'os';
 import path from 'path';
 import qr from 'qrcode';
-import { execSync, exec } from 'child_process';
+import { execSync, execFile } from 'child_process';
 
 export function findLocalIpAddress(): string {
   let ip = '0.0.0.0';
@@ -51,18 +51,11 @@ async function createTempQrImage(url: string): Promise<string> {
 
 export async function openFile(filePath: string): Promise<void> {
   const platform = process.platform;
-  let command: string;
-
-  if (platform === 'darwin') {
-    command = `open "${filePath}"`;
-  } else if (platform === 'win32') {
-    command = `start "" "${filePath}"`;
-  } else {
-    command = `xdg-open "${filePath}"`;
-  }
+  const command = platform === 'darwin' ? 'open' : platform === 'win32' ? 'cmd' : 'xdg-open';
+  const args = platform === 'win32' ? ['/c', 'start', '', filePath] : [filePath];
 
   await new Promise<void>((resolve, reject) => {
-    exec(command, (err) => {
+    execFile(command, args, { shell: false }, (err) => {
       if (err) {
         reject(err);
       } else {
